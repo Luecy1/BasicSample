@@ -28,9 +28,8 @@
             android:contentDescription="@string/cd_products_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinerLayoutManager"
+            app:layoutManager="LinearLayoutManager"
             app:visibleGone="@{!isLoading}"/>
 
     </LinearLayout>
-
 </layout>
