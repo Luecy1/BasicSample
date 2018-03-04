@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.databinding.ListFragmentBinding;
-import com.github.luecy1.basicsample.model.Product;
 
 /**
  * Created by you on 2018/02/24.

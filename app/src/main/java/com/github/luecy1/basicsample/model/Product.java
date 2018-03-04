@@ -5,7 +5,7 @@ package com.github.luecy1.basicsample.model;
  */
 public interface Product {
     int getId();
-    String getNage();
+    String getName();
     String getDescription();
     int getPrice();
 }
