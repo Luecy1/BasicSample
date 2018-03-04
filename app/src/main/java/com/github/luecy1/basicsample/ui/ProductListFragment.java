@@ -1,5 +1,6 @@
 package com.github.luecy1.basicsample.ui;
 
+import android.arch.lifecycle.Lifecycle;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.databinding.ListFragmentBinding;
+import com.github.luecy1.basicsample.model.Product;
 
 /**
  * Created by you on 2018/02/24.
@@ -19,6 +21,8 @@ public class ProductListFragment extends Fragment {
 
     public static final String TAG = "ProductListViewModel";
 
+    private ProductAdapter mProductAdapter;
+
     private ListFragmentBinding mBinding;
 
     @Nullable
@@ -27,6 +31,9 @@ public class ProductListFragment extends Fragment {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false);
 
+        mProductAdapter = new ProductAdapter(mProductClickCallback);
+        mBinding.productsList.setAdapter(mProductAdapter);
+
         return mBinding.getRoot();
     }
 
@@ -34,4 +41,10 @@ public class ProductListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    private final ProductClickCallback mProductClickCallback = product -> {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            ((MainActivity) getActivity()).show(product);
+        }
+    };
 }

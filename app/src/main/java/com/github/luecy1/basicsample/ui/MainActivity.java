@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.luecy1.basicsample.R;
+import com.github.luecy1.basicsample.model.Product;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,5 +21,17 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, fragment, ProductListFragment.TAG)
                     .commit();
         }
+    }
+
+    public void show(Product product) {
+
+        ProductFragment productFragment = ProductFragment.forProduct(product.getId());
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("product")
+                .replace(R.id.fragment_container,
+                        productFragment, null)
+                .commit();
     }
 }
