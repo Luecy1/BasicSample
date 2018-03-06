@@ -1,6 +1,7 @@
 package com.github.luecy1.basicsample.ui;
 
 import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.databinding.ListFragmentBinding;
+import com.github.luecy1.basicsample.viewmodel.ProductListViewModel;
 
 /**
  * Created by you on 2018/02/24.
@@ -39,6 +41,13 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        final ProductListViewModel viewModel =
+                ViewModelProviders.of(this).get(ProductListViewModel.class);
+
+        subscribeUi(viewModel);
+    }
+
+    private void subscribeUi(ProductListViewModel viewModel) {
     }
 
     private final ProductClickCallback mProductClickCallback = product -> {

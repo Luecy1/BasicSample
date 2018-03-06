@@ -2,8 +2,10 @@ package com.github.luecy1.basicsample.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
+import com.github.luecy1.basicsample.BasicApp;
 import com.github.luecy1.basicsample.db.entry.ProductEntry;
 
 import java.util.List;
@@ -22,5 +24,11 @@ public class ProductListViewModel extends AndroidViewModel {
         mObservableProducts = new MediatorLiveData<>();
         mObservableProducts.setValue(null);
 
+//        LiveData<List<ProductEntry>> products = ((BasicApp) application).getRepository();
+
+    }
+
+    public LiveData<List<ProductEntry>> getProduct() {
+        return mObservableProducts;
     }
 }

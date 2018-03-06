@@ -8,7 +8,6 @@ import com.github.luecy1.basicsample.model.Product;
 /**
  * Created by you on 2018/03/05.
  */
-// TODO
 @Entity(tableName = "products")
 public class ProductEntry implements Product {
 
