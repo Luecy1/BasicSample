@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * Created by you on 2018/03/05.
  */
-// TODO
 public class ProductListViewModel extends AndroidViewModel {
 
     private final MediatorLiveData<List<ProductEntry>> mObservableProducts;
@@ -24,11 +23,12 @@ public class ProductListViewModel extends AndroidViewModel {
         mObservableProducts = new MediatorLiveData<>();
         mObservableProducts.setValue(null);
 
-//        LiveData<List<ProductEntry>> products = ((BasicApp) application).getRepository();
+        LiveData<List<ProductEntry>> products = ((BasicApp) application).getRepository().getProducts();
 
+        mObservableProducts.addSource(products, mObservableProducts::setValue);
     }
 
-    public LiveData<List<ProductEntry>> getProduct() {
+    public LiveData<List<ProductEntry>> getProducts() {
         return mObservableProducts;
     }
 }
