@@ -14,10 +14,10 @@ import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.databinding.ListFragmentBinding;
 import com.github.luecy1.basicsample.viewmodel.ProductListViewModel;
 
+
 /**
  * Created by you on 2018/02/24.
  */
-// TODO
 public class ProductListFragment extends Fragment {
 
     public static final String TAG = "ProductListViewModel";
@@ -48,6 +48,17 @@ public class ProductListFragment extends Fragment {
     }
 
     private void subscribeUi(ProductListViewModel viewModel) {
+
+        viewModel.getProducts().observe(this, myProducts -> {
+            if (myProducts != null) {
+                mBinding.setIsLoading(false);
+                mProductAdapter.setProductList(myProducts);
+            } else {
+                mBinding.setIsLoading(true);
+            }
+
+            mBinding.executePendingBindings();
+        });
     }
 
     private final ProductClickCallback mProductClickCallback = product -> {

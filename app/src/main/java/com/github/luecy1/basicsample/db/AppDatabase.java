@@ -14,6 +14,7 @@ import android.support.annotation.VisibleForTesting;
 import com.github.luecy1.basicsample.AppExecutors;
 import com.github.luecy1.basicsample.db.converter.DateConverter;
 import com.github.luecy1.basicsample.db.dao.CommentDao;
+import com.github.luecy1.basicsample.db.dao.DataGenerator;
 import com.github.luecy1.basicsample.db.dao.ProductDao;
 import com.github.luecy1.basicsample.db.entry.CommentEntry;
 import com.github.luecy1.basicsample.db.entry.ProductEntry;
@@ -23,7 +24,6 @@ import java.util.List;
 /**
  * Created by you on 2018/03/05.
  */
-// TODO
 @Database(entities = {ProductEntry.class, CommentEntry.class}, version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
@@ -43,10 +43,12 @@ public abstract class AppDatabase extends RoomDatabase {
         if (sInstance == null) {
             synchronized (AppDatabase.class) {
                 if (sInstance == null) {
+                    sInstance = buildDatabase(context.getApplicationContext(), executors);
+                    sInstance.updateDatabaseCreated(context.getApplicationContext());
                 }
             }
         }
-        return null;
+        return sInstance;
     }
 
     private static AppDatabase buildDatabase(final Context appContext,
@@ -61,11 +63,33 @@ public abstract class AppDatabase extends RoomDatabase {
                             addDelay();
 
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
-//                            List<ProductEntry> products =
-//                            List<CommentEntry> comment =
+                            List<ProductEntry> products = DataGenerator.generateProducts();
+                            List<CommentEntry> comment = DataGenerator.generateCommentsForProducts(products);
+
+                            insertData(database, products, comment);
+
+                            database.setDatabaseCreated();
                         });
                     }
                 }).build();
+    }
+
+    private void updateDatabaseCreated(final Context context) {
+        if (context.getDatabasePath(DATABASE_NAME).exists()) {
+            setDatabaseCreated();
+        }
+    }
+
+    private void setDatabaseCreated() {
+        mIsDatabaseCreated.postValue(true);
+    }
+
+    private static void insertData(final AppDatabase database, final List<ProductEntry> products,
+                                   final List<CommentEntry> comments) {
+        database.runInTransaction(() -> {
+            database.productDao().insertAll(products);
+            database.commentDao().insertAll(comments);
+        });
     }
 
     private static void addDelay() {
@@ -76,6 +100,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public LiveData<Boolean> getDatabaseCreated() {
-        return null;
+        return mIsDatabaseCreated;
     }
 }
