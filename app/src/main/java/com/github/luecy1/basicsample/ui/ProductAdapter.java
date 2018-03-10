@@ -1,12 +1,15 @@
 package com.github.luecy1.basicsample.ui;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.databinding.ProductItemBinding;
 import com.github.luecy1.basicsample.model.Product;
 
@@ -16,7 +19,6 @@ import java.util.Objects;
 /**
  * Created by you on 2018/03/03.
  */
-// TODO
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     List<? extends Product> mProductList;
@@ -69,23 +71,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        ProductItemBinding binding = DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()), R.layout.product_item,
+                        parent, false);
+        binding.setCallback(mProductClickCallback);
+        return new ProductViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-
+        holder.binding.setProduct(mProductList.get(position));
+        holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mProductList == null ? 0 : mProductList.size();
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        public ProductViewHolder(View itemView) {
-            super(itemView);
+        final ProductItemBinding binding;
+
+        public ProductViewHolder(ProductItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
