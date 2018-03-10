@@ -62,6 +62,8 @@ public class ProductFragment extends Fragment {
 
         mBinding.setProductViewModel(model);
 
+        subscribeToModel(model);
+
     }
 
     private void subscribeToModel(final ProductViewModel model) {
