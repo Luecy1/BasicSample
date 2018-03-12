@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit;
 public class LiveDataTestUtil {
 
     public static <T> T getValue(final LiveData<T> liveData) throws InterruptedException {
-        final Objects[] data = new Objects[1];
+        final Object[] data = new Object[1];
         final CountDownLatch latch = new CountDownLatch(1);
         Observer<T> observer = new Observer<T>() {
             @Override
             public void onChanged(@Nullable T o) {
-                data[0] = (Objects) o;
+                data[0] = o;
                 latch.countDown();
                 liveData.removeObserver(this);
             }
