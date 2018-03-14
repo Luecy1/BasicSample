@@ -21,13 +21,15 @@ import java.util.List;
 
 import static com.github.luecy1.basicsample.db.TestData.COMMENTS;
 import static com.github.luecy1.basicsample.db.TestData.COMMENT_ENTRY;
+import static com.github.luecy1.basicsample.db.TestData.PRODUCTS;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by you on 2018/03/14.
  */
-// TODO
 @RunWith(AndroidJUnit4.class)
 public class CommentDaoTest {
 
@@ -71,6 +73,28 @@ public class CommentDaoTest {
         } catch (SQLiteConstraintException ignored) {
 
         }
+    }
+
+    @Test
+    public void getCommentsAfterInserted() throws InterruptedException {
+        mProductDao.insertAll(PRODUCTS);
+        mCommentDao.insertAll(COMMENTS);
+
+        List<CommentEntry> comments = LiveDataTestUtil.getValue(mCommentDao.loadComments
+                (COMMENT_ENTRY.getProductId()));
+
+        assertThat(comments.size(), is(1));
+    }
+
+    @Test
+    public void getCommentByProductId() throws InterruptedException {
+        mProductDao.insertAll(PRODUCTS);
+        mCommentDao.insertAll(COMMENTS);
+
+        List<CommentEntry> comments = LiveDataTestUtil.getValue(mCommentDao.loadComments
+                (COMMENT_ENTRY.getProductId()));
+
+        assertThat(comments.size(), is(1));
     }
 
 }
