@@ -5,19 +5,32 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.github.luecy1.basicsample.AppExecutors;
+import com.github.luecy1.basicsample.R;
 import com.github.luecy1.basicsample.db.AppDatabase;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+
+import static org.hamcrest.core.IsNot.not;
 
 
 /**
@@ -65,6 +78,19 @@ public class MainActivityTest {
 
 //    @Test
 //    public void clickOnFirstItem_opensComments() throws Throwable {
+//
+//        drain();
+//
+//        onView(ViewMatchers.withContentDescription(R.string.cd_products_list))
+//                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+//
+//        drain();
+//        onView(withContentDescription(R.string.cd_comments_list))
+//                .check(matches(isDisplayed()));
+//
+//        drain();
+//        onView(withContentDescription(R.string.cd_product_name))
+//                .check(matches(not(withText(""))));
 //
 //    }
 
